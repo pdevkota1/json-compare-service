@@ -24,3 +24,11 @@ def compare_json():
 		return jsonify(error=403, text="Second json Invalid!!"), 403
 	res = comparer(dict1, dict2, dict1_name="first_json", dict2_name="second_json")
 	return jsonify({"diff": res})
+
+
+# run the app.
+if __name__ == "__main__":
+    # Setting debug to True enables debug output. This line should be
+    # removed before deploying a production app.
+    app.debug = True
+    app.run()
