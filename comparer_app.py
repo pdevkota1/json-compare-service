@@ -17,15 +17,15 @@ def compare_json():
 		print(request.json)
 		data = request.json
 	except Exception as e:
-		return jsonify(error=409, text="Invalid Data"), 409
+		return jsonify(error=400, text="Invalid Data!"), 400
 	try:
 		dict1 = json.loads(data["first_json"])
 	except Exception as e: 
-		return jsonify(error=409, text="First JSON Invalid!!"), 409
+		return jsonify(error=400, text="First JSON Invalid!"), 400
 	try:
 		dict2 = json.loads(data["second_json"])
 	except Exception as e:
-		return jsonify(error=409, text="Second json Invalid!!"), 409
+		return jsonify(error=400, text="Second json Invalid!"), 400
 	try:
 		res = comparer(dict1, dict2, dict1_name="first_json", dict2_name="second_json")
 		print("--result--")

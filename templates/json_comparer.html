@@ -86,11 +86,13 @@
                             $("#diff_output").val(JSON.stringify(callback.diff, null, 4));
                             var d = document.getElementById("div_diff");
                             d.className -= " has-error";
+                            d.className += " has-success";
                         },
                         error: function(xhr) {
                             var d = document.getElementById("div_diff");
                             d.className += " has-error";
-                            $("#diff_output").val(JSON.stringify(xhr.responseJSON));
+                            var error_message = xhr.responseJSON || "Service Unavailable!";
+                            $("#diff_output").val(JSON.stringify(error_message));
                         }
                     });
                 });
