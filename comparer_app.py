@@ -12,18 +12,28 @@ def hello_world():
 
 @app.route('/api/v1.0/compare_json', methods=['POST'])
 def compare_json():
-	print("data is %s" % request.json)
-	data = request.json
+	try:
+		print("--request--")
+		print(request.json)
+		data = request.json
+	except Exception as e:
+		return jsonify(error=409, text="Invalid Data"), 409
 	try:
 		dict1 = json.loads(data["first_json"])
 	except Exception as e: 
-		return jsonify(error=403, text="First JSON Invalid!!"), 403
+		return jsonify(error=409, text="First JSON Invalid!!"), 409
 	try:
 		dict2 = json.loads(data["second_json"])
 	except Exception as e:
-		return jsonify(error=403, text="Second json Invalid!!"), 403
-	res = comparer(dict1, dict2, dict1_name="first_json", dict2_name="second_json")
-	return jsonify({"diff": res})
+		return jsonify(error=409, text="Second json Invalid!!"), 409
+	try:
+		res = comparer(dict1, dict2, dict1_name="first_json", dict2_name="second_json")
+		print("--result--")
+		print(res)
+		return jsonify({"diff": res})
+	except Exception as e:
+		return jsonify(error=500, text="Internal Error %s" % e), 500
+
 
 
 # run the app.
