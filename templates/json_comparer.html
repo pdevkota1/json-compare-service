@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <body>
 
-<!-- Fixed navbar -->
+<!-- Fixed navbar 
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -24,24 +24,26 @@
             <li><a href="#contact">Contact</a></li>
            
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </nav>
+    -->
 
     <!-- Begin page content -->
-    <div class="container" style="padding-top:60px;">
-      <div class="page-header">
-        <h1>Compare you JSON Files</h1>
+ <!--   <div class="container" style="padding-top:60px;"> -->
+      <div class="page-header" style="display:inline;>
+        <a class="downloadXYZ" href="download.zip">Download</a>text i dont want. I cant figure out what to write here
+        <h1>Compare Two JSONs</h1>
       </div>
      
      <form id="json_form">
         <div class="form-group col-xs-6">
             <label for="dict_1">First JSON</label>
-            <textarea class="form-control" id="first_json" name="first_json" rows="20" placeholder="Enter the first json here"></textarea>
+            <textarea class="form-control" id="first_json" name="first_json" rows="18" placeholder="Enter the first json here"></textarea>
           </div>
           <div class="form-group col-xs-6">
             <label for="dict_2">Second JSON</label>
-            <textarea class="form-control" id="second_json" name="second_json" rows="20" placeholder="Enter the second json here"></textarea>
+            <textarea class="form-control" id="second_json" name="second_json" rows="18" placeholder="Enter the second json here"></textarea>
           </div>
 
         <div class="form-group">
@@ -55,7 +57,7 @@
 
         <div class="form-group" id="div_diff" style="padding-left:10px;padding-right:10px;">
             <label for="diff_output">Result</label>
-            <textarea readonly class="form-control" id="diff_output" name="diff_output" rows="8" 
+            <textarea readonly class="form-control" id="diff_output" name="diff_output" rows="12" 
             placeholder="Results will be displayed here in json format, diff keys in dot concat format.  If jsons are equal, empty dictionary returned"></textarea>
         </div>
 
@@ -83,13 +85,21 @@
                         data: JSON.stringify(data),
                         context: Form,
                         success: function(callback) {
-                            $("#diff_output").val(JSON.stringify(callback.diff, null, 4));
+                            var result = callback.diff
+                            if (jQuery.isEmptyObject(result)) {
+                                result = "The two JSONs are equal";
+                            }
+                            else {
+                                result = JSON.stringify(result, null, 4);
+                            }
+                            $("#diff_output").val(result);
                             var d = document.getElementById("div_diff");
                             d.className -= " has-error";
                             d.className += " has-success";
                         },
                         error: function(xhr) {
                             var d = document.getElementById("div_diff");
+                            d.className -= " has-success";
                             d.className += " has-error";
                             var error_message = xhr.responseJSON || "Service Unavailable!";
                             $("#diff_output").val(JSON.stringify(error_message));
